@@ -31,5 +31,4 @@
     day: "{{ postgresql_backup_schedule.day | d(omit) }}"
     weekday: "{{ postgresql_backup_schedule.weekday | d(omit) }}"
     month: "{{ postgresql_backup_schedule.month | d(omit) }}"
-    user: "{{ postgresql_user }}"
-    job: "/bin/bash {{ postgresql_backup_script_dest }}"
+    job: "su - {{ postgresql_user }} -c '/bin/bash {{ postgresql_backup_script_dest }}'"

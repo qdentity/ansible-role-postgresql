@@ -26,5 +26,4 @@
     day: "{{ postgresql_vacuum_schedule.day | d(omit) }}"
     weekday: "{{ postgresql_vacuum_schedule.weekday | d(omit) }}"
     month: "{{ postgresql_vacuum_schedule.month | d(omit) }}"
-    user: "{{ postgresql_user }}"
-    job: "{{ postgresql_vacuum_script_dest }} {{ postgresql_vacuum_option }}"
+    job: "su - {{ postgresql_user }} -c '{{ postgresql_vacuum_script_dest }} {{ postgresql_vacuum_option }}'"
