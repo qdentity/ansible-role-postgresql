@@ -37,6 +37,15 @@
     - postgresql_replication
     - postgresql_replication_hba_entries | d([], true) | length == 0
 
+- name: Retrieve postgresql user's info for home directory
+  ansible.builtin.getent:
+    database: passwd
+    key: "{{ postgresql_user }}"
+
+- name: Set fact for postgresql user's home directory
+  ansible.builtin.set_fact:
+    _postgresql_user_home_dir: "{{ ansible_facts.getent_passwd[postgresql_user][4] }}"
+
 - name: Set postgresql_conn_vars to make it available later in hostvars
   ansible.builtin.set_fact:
     postgresql_conn_vars: "{{ postgresql_conn_vars }}"

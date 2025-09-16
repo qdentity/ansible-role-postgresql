@@ -27,15 +27,6 @@
         - "{{ ansible_pkg_mgr }}/install.yml"
       skip: true
 
-- name: Retrieve postgresql user's info
-  ansible.builtin.getent:
-    database: passwd
-    key: "{{ postgresql_user }}"
-
-- name: Set fact for postgresql user's home directory
-  ansible.builtin.set_fact:
-    _postgresql_user_home_dir: "{{ ansible_facts.getent_passwd[postgresql_user][4] }}"
-
 - name: Create a dedicated virtual env for postgresql related libraries
   ansible.builtin.pip:
     name: pip
