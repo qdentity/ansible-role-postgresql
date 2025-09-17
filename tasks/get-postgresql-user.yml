@@ -1,0 +1,17 @@
+---
+# Reusable task to get PostgreSQL user information
+# This is needed in multiple places:
+# - setup-vars.yml: For configuration tasks (might not exist on fresh install)
+# - install.yml: After packages are installed (user will exist)
+
+- name: Check if postgresql user exists
+  ansible.builtin.getent:
+    database: passwd
+    key: "{{ postgresql_user }}"
+  ignore_errors: true
+  register: _postgresql_user_getent
+
+- name: Set fact for postgresql user's home directory
+  ansible.builtin.set_fact:
+    _postgresql_user_home_dir: "{{ ansible_facts.getent_passwd[postgresql_user][4] }}"
+  when: _postgresql_user_getent is succeeded
